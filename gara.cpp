@@ -24,7 +24,6 @@ static int a2, b2;
 static int lastEncoded = 0;
 static long encoderValue = 0;
 static long lastencoderValue = 0;
-static int lastMSB = 0, lastLSB = 0;
 
 //Inizializzo tutta la classe
 gara::gara() {
