@@ -17,14 +17,20 @@
 #include "gara.h"
 #include <string.h>
 
+
+static int _dir, _en, _cp;
+static int a1, b1;
+static int a2, b2;
+static int lastEncoded = 0;
+static long encoderValue = 0;
+static long lastencoderValue = 0;
+static int lastMSB = 0, lastLSB = 0;
+
 //Inizializzo tutta la classe
 gara::gara() {
 
 }
 
-    static int _dir, _en, _cp;
-    static int a1, b1;
-    static int a2, b2;
 
 //Funzione per convertitre una stringa in intero
 
@@ -110,9 +116,25 @@ void gara::encSetup2(int pin_a, int pin_b) {
   b2 = pin_b;
 }
 
-int gara::encRead(int a, int b) {
-  Serial.println(a);
-  Serial.println(b);
+
+//Funzione per leggere l'encoder incrementale
+
+//I due valori che prendo nella funzione sono i valori logici degli ingressi, li chiamo msb e lsb perche adesso li devo convertire in binario
+int gara::encRead(int MSB, int LSB) {
+  //Salvo nella variabile encoded il valore msb shiftando i bit a sinistra di 1 e e facendo un or logico bit a bit con il valore di lsb
+  int encoded = (MSB << 1) | LSB; 
+  //Vado a fare la somma dei due valore convertiti
+  int sum = (lastEncoded << 2) | encoded;
+  //Codnizioni per cui gira solo in un senso
+  if (sum == 0b1101 || sum == 0b0100 || sum == 0b0010 || sum == 0b1011) {
+    encoderValue++;
+  }
+  //Condizioni per cui gira nell'altro senso
+  if (sum == 0b1110 || sum == 0b0111 || sum == 0b0001 || sum == 0b1000) {
+    encoderValue--;
+  }
+  lastEncoded = encoded;
+  return encoderValue;
 }
 
 
