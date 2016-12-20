@@ -107,9 +107,9 @@ void gara::encSetup2(int pin_a, int pin_b) {
 //Funzione per leggere l'encoder incrementale
 
 //I due valori che prendo nella funzione sono i valori logici degli ingressi, li chiamo msb e lsb perche adesso li devo convertire in binario
-int gara::encRead(int MSB, int LSB) {
+int gara::encRead(int b) {
   //Salvo nella variabile encoded il valore msb shiftando i bit a sinistra di 1 e e facendo un or logico bit a bit con il valore di lsb
-  int encoded = (MSB << 1) | LSB; 
+ /* int encoded = (MSB << 1) | LSB; 
   //Vado a fare la somma dei due valore convertiti
   int sum = (lastEncoded << 2) | encoded;
   //Codnizioni per cui gira solo in un senso
@@ -119,7 +119,13 @@ int gara::encRead(int MSB, int LSB) {
   //Condizioni per cui gira nell'altro senso
   if (sum == 0b1110 || sum == 0b0111 || sum == 0b0001 || sum == 0b1000) {
     encoderValue--;
+  }  
+  lastEncoded = encoded;*/
+  if(b) {
+    encoderValue--;
+  } else {
+    encoderValue++;
   }
-  lastEncoded = encoded;
+  return encoderValue;
   return encoderValue;
 }

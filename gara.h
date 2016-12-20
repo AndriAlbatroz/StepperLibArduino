@@ -17,7 +17,7 @@ class gara {
     void impGen(int n, boolean dir, int d);
     void encSetup1(int pin_a, int pin_b);
     void encSetup2(int pin_a, int pin_b);
-    int encRead(int MSB, int LSB);
+    int encRead(int b);
     boolean done = false;
 };
 
